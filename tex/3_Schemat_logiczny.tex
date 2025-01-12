@@ -1,3 +1,16 @@
 	\newpage
 \section{Schemat logiczny}		%3
 % (Ma zawierać aktualne nazewnictwo i adresację IP.)
+
+\fg[\textwidth]{rys/03_Schemat_Logiczny/Network.drawio.png}{Schemat logiczny architektury sieciowej}{schemat-sieci}
+
+Na \OznaczZdjecie[rysunku]{schemat-sieci} przedstawiono schemat logiczny architektury sieciowej. W skład architektury sieciowej wchodzą następujące elementy:
+
+\begin{itemize}
+	\item \textbf{Serwer SDC96} - serwer z systemem operacyjnym Windows Server 2022, na którym zainstalowana jest usługa Active Directory. Serwer SDC pełni rolę kontrolera domeny. Adres IP tego serwera to 192.168.96.40/24.
+	\item \textbf{Serwer SMP96} - serwer z systemem operacyjnym Windows Server 2022. Jest on serwerem `kotwicą` dla iSCSI, dysków RAID oraz Failover Clustra. Adres IP tego serwera to 192.168.96.41/24. 
+	\item \textbf{Serwery SN1-96 i SN2-96}\footnote{Sprostowanie błędnego nazewnictwa na zrzutach ekranu we Wnioskach (sekcja nr.\ref{sec:wnioski})} - serwery z systemem operacyjnym Windows Server 2022. Pełnią funkcje node'ów klastra. Adresy IP tych serwerów to odpowiednio 192.168.96.51/24 oraz 192.168.96.52/24.
+	\item \textbf{FailoverCluster} - klaster składający się z dwóch serwerów SN1 i SN2. Klastr pełni funkcję wysokiej dostępności dla usługi DHCP oraz usługi plikowej. Adres IP klastra to 192.168.96.42/24.
+	\item \textbf{Serwer DHCP} - serwer z systemem operacyjnym Windows Server 2022. Serwer pełni funkcję serwera DHCP dla komputerów klientów w sieci z pulą adresów 192.168.96.100 - 200. Adres IP serwera DHCP to 192.168.96.44/24.
+	\item \textbf{Serwer SFS} - serwer z systemem operacyjnym Windows Server 2022. Serwer pełni funkcję serwera plików dla komputerów klientów w sieci. Adres IP serwera SFS to 192.168.96.43/24.
+\end{itemize}

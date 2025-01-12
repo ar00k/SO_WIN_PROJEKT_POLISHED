@@ -1,0 +1,5 @@
+Cezary,Rudnicki,Cezary Rudnicki,CR,Programista,C.Rudnicki@,1995-02-15,2024-05-05,SO123456#
+Rajnold,Sobczyk,Rajnold Sobczyk,RS,Ksiegowosc,R.Sobczyk@,1961-04-08,2024-09-05,SO123456#
+Arkadiusz,Ryczek,Arkadiusz Ryczek,AR,IT,A.Ryczek@,1982-07-19,2024-11-18,SO123456#
+Regina,Mroczkowski,Regina Mroczkowski,RM,Kadry,R.Mroczkowski@,1963-01-26,2024-10-09,SO123456#
+Maurycy,Lipka,Maurycy Lipka,ML,IT,M.Lipka@,1969-01-09,2024-02-17,SO123456#

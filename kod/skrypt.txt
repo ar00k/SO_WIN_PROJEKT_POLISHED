@@ -1,0 +1,110 @@
+# Wczytanie danych z pliku CSV
+$desktop = "$env:USERPROFILE\Desktop"
+$csvPath = "$desktop\fake-users.csv"
+
+# Sprawdzenie czy plik CSV istnieje
+if (-not (Test-Path -Path $csvPath)) {
+    Write-Host "Blad: Plik $csvPath nie istnieje!" -ForegroundColor Red
+    exit
+}
+
+Write-Host "Rozpoczynam import danych..."
+try {
+    $users = Import-Csv -Path $csvPath
+    Write-Host "Zaimportowano dane z pliku CSV" -ForegroundColor Green
+} catch {
+    Write-Host "Blad podczas importu pliku CSV: $_" -ForegroundColor Red
+    exit
+}
+
+$city = "Nowy-Sacz"
+$domain = Get-ADDomain
+$domainName = $domain.DNSRoot
+
+# Utworzenie glownej jednostki organizacyjnej $city
+$ou = "OU=$city,DC=$($domainName -replace '\.', ',DC=')"
+try {
+    if (-not (Get-ADOrganizationalUnit -Filter {DistinguishedName -eq $ou})) {
+        New-ADOrganizationalUnit -Name "$city" -Path "DC=$($domainName -replace '\.', ',DC=')" -ProtectedFromAccidentalDeletion $true
+        Write-Host "Utworzono glowna jednostke organizacyjna: $city"
+    }
+} catch {
+    Write-Host "Blad podczas tworzenia glownej jednostki organizacyjnej: $_"
+    exit
+}
+
+$subOUs = @("Uzytkownicy", "Grupy", "Komputery")
+
+# Utworzenie jednostek organizacyjnych: Users i Grupy
+foreach ($ouName in $subOUs) {
+    $ouPath = "OU=$ouName,$ou"
+    try {
+        if (-not (Get-ADOrganizationalUnit -Filter {DistinguishedName -eq $ouPath})) {
+            New-ADOrganizationalUnit -Name $ouName -Path $ou -ProtectedFromAccidentalDeletion $true
+            Write-Host "Utworzono jednostke organizacyjna: $ouName"
+        }
+    } catch {
+        Write-Host "Blad podczas tworzenia jednostki organizacyjnej: $_"
+        exit
+    }
+}
+
+$usersOU = "OU=Uzytkownicy,$ou"
+$groupsOU = "OU=Grupy,$ou"
+
+# Przetwarzanie kazdego uzytkownika z pliku CSV
+foreach ($user in $users) {
+    # Normalizacja e-maila
+    $email = $user.email
+
+    # Utworzenie pelnego imienia i nazwiska uzytkownika
+    $fullName = $user.fullname
+    $username = "$($user.name).$($user.surname)"
+
+    # Ustalenie grupy na podstawie stanowiska
+    $position = $user.position
+    $groupName = $position
+
+    try {
+        # Utworzenie grupy w glownej jednostce $city
+        if ($groupName -and -not (Get-ADGroup -Filter {Name -eq $groupName})) {
+            New-ADGroup -Name $groupName -GroupScope Global -Path $groupsOU
+            Write-Host "Utworzono grupe: $groupName w $city"
+        }
+
+        # Utworzenie uzytkownika
+        $existingUser = Get-ADUser -Filter {SamAccountName -eq $username}
+        if ($existingUser) {
+            do {
+                $username = "$username$(Get-Random -Minimum 1 -Maximum 999)"
+                $email = "$username@"
+                $existingUser = Get-ADUser -Filter {SamAccountName -eq $username}
+            } while ($existingUser)
+        }
+
+        New-ADUser -SamAccountName $username `
+            -UserPrincipalName "$username@$domainName" `
+            -Name $fullName `
+            -GivenName $user.name `
+            -Surname $user.surname `
+            -DisplayName $fullName `
+            -EmailAddress "$email$domainName" `
+            -Department $position `
+            -Initials $user.initials `
+            -AccountPassword (ConvertTo-SecureString -String $user.pass -AsPlainText -Force) `
+            -Enabled $true `
+            -PasswordNeverExpires $true `
+            -ChangePasswordAtLogon $false `
+            -Path $usersOU
+
+        # Dodanie uzytkownika do odpowiedniej grupy
+        Add-ADGroupMember -Identity $groupName -Members $username
+        Write-Host "Utworzono uzytkownika: $fullName ($username) w grupie: $groupName"
+
+    } catch {
+        Write-Host "Blad podczas przetwarzania uzytkownika: $_"
+    }
+}
+
+Write-Host "Zakonczono tworzenie struktury organizacyjnej w $city"
+pause
