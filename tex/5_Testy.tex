@@ -1,4 +1,96 @@
 	\newpage
 \section{Testy działania wdrożonych usług}	%5
 % (W podpunktach zamieścić zrzuty ekranów pokazujące działanie wdrożonych usług)
+\clearpage
+
+\subsection{Testy działania usługi Active Directory}
+
+Aby sprawdzić czy usługa Active Directory działa poprawnie, należy zalogować sie do domeny z dowolnego komputera w sieci.
+
+\fg[\textwidth]{rys/05_Testy/ad.png}{Logowanie do domeny}{ad-01}
+
+\clearpage
+
+\subsection{Testy działania usługi DNS}
+
+Aby sprawdzić czy usługa DNS działa poprawnie, należy sprawdzić czy komputery w sieci mogą się nawzajem pingować po nazwie domenowej albo użyć polecenia nslookup.
+
+
+\fg[\textwidth]{rys/05_Testy/DNS1.png}{Wynik polecenia nslookup}{dns-02}
+
+\fg[\textwidth]{rys/05_Testy/DNS2.png}{Pingowanie po nazwie domenowej}{dns-01}
+
+\clearpage
+
+\subsection{Testy działania usługi DHCP}
+
+Aby sprawdzić czy usługa DHCP działa poprawnie, należy sprawdzić czy komputery w sieci otrzymują adresy IP z serwera DHCP.
+
+\fg[\textwidth]{rys/05_Testy/DHCP-01.png}{Wynik polecenia ipconfig}{dhcp-01}
+\clearpage
+
+\subsection{Testy działania skryptu tworzącego konta i grupy w AD}
+
+Aby sprawdzić czy skrypt tworzący konta i grupy w AD działa poprawnie, należy sprawdzić czy konta i grupy zostały utworzone w AD.
+
+\fg[\textwidth]{rys/05_Testy/grupy.png}{Wynik działania skryptu}{grupy-01}
+\clearpage
+
+\subsection{Testy działania usługi WDS}
+
+Aby sprawdzić czy usługa WDS działa poprawnie, należy sprawdzić czy komputer klienta może zainstalować system operacyjny Windows z serwera WDS.
+
+\fg[\textwidth]{rys/05_Testy/WDS-01.png}{Instalacja systemu Windows z serwera WDS}{wds-01}
+
+
+\fg[\textwidth]{rys/05_Testy/WDS-02.png}{Instalacja systemu Windows z serwera WDS}{wds-01}
+\clearpage
+
+\subsection{Testy działania usługi FS}
+
+Aby sprawdzić czy usługa FS działa poprawnie, należy sprawdzić czy zasoby sieciowe istnieją i czy można się do nich podłączyć.
+
+\fg[\textwidth]{rys/05_Testy/FS-01.png}{Zasoby sieciowe}{fs-01}
+
+\subsection{Testy działania usługi GPO}
+
+Aby sprawdzić czy usługa GPO działa poprawnie, należy sprawdzić czy ustawienia GPO są stosowane na komputerach w sieci.
+
+\fg[\textwidth]{rys/05_Testy/GPO-01.png}{Poprawne dzialanie GPO}{gpo-01}
+
+\fg[\textwidth]{rys/05_Testy/GPO-02.png}{Poprawne dzialanie GPO cz.2 }{gpo-01}
+\clearpage
+
+\subsection{Testy działania usługi iSCSI}
+
+Aby sprawdzić czy usługa iSCSI działa poprawnie, należy sprawdzić czy klaster iSCSI działa poprawnie.
+
+\fg[\textwidth]{rys/05_Testy/iSCSI-01.png}{Poprawne dzialanie iSCSI}{iscsi-01}
+\clearpage
+
+\subsection{Testy działania serweru wydruków}
+
+Aby sprawdzić czy serwer wydruków działa poprawnie, należy sprawdzić czy drukarki sieciowe są dostępne dla komputerów w sieci.
+
+\fg[\textwidth]{rys/05_Testy/Print-01.png}{Dostępne drukarki sieciowe}{print-01}
+
+\fg[\textwidth]{rys/05_Testy/Print-02.png}{Dostępne drukarki sieciowe cz.2}{print-02}
+
+\clearpage
+
+\subsection{Testy działania usługi IIS}
+
+Aby sprawdzić czy usługa IIS działa poprawnie, należy sprawdzić czy strona internetowa działa poprawnie.
+
+\fg[\textwidth]{rys/05_Testy/IIS-01.png}{Poprawne dzialanie IIS}{iis-01}
+\clearpage
+
+\subsection{Testy działania usługi WordPress}
+
+
+Aby sprawdzić czy usługa WordPress działa poprawnie, należy sprawdzić czy strona internetowa działa poprawnie.
+
+\fg[\textwidth]{rys/05_Testy/WordPress-01.png}{Poprawne dzialanie WordPress}{wordpress-01}
+
+
 
